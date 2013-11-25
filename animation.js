@@ -9,6 +9,10 @@ var assets = [
               'x-wing.jpg'
              ];
 var frames = [];
+var rotate = 0;
+var pos = [];
+
+var numplayers = 2;
 
 var onImageLoad = function(){
     console.log("IMAGE!!!");
@@ -43,12 +47,24 @@ var setup = function() {
 	console.log("load %d image", i);
     }
     setInterval(animate, frameRate);
-    document.onkeypress = keyControl;
+    document.onkeypress = keydown;
+    document.onkeyup = keyup;
 };
 
 
-var keyControl = function(e) {
+var keydown = function(e) {
     console.log("%d pressed", e.keyCode);
+    if (e.keyCode === 39) {
+	rotate = 0.1;
+    }
+    else if (e.keyCode === 37) {
+	rotate = -0.1;
+    }
+};
+
+var keyup = function(e) {
+    console.log("%d pressed", e.keycode);
+    rotate = 0.0;
 };
 
 var animate = function(){
@@ -60,10 +76,11 @@ var animate = function(){
     // Try your code with this call to clearRect commented out
     // and uncommented to see what happens!
     //
+    // frames = player.frames;
     ctx.clearRect(0,0,canvas.width, canvas.height);
     ctx.translate(10, 10);
     ctx.translate(frames[frame].width/2, frames[frame].height/2);
-    ctx.rotate(0.1);
+    ctx.rotate(rotate);
     ctx.drawImage(frames[frame], -frames[frame].width/2, -frames[frame].height/2);
     ctx.translate(-frames[frame].width/2, -frames[frame].height/2);
     ctx.translate(-10, -10);
